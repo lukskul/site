@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>lukSkul</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="icon" type="image/x-icon" href="https://nest.dynamic-dns.net:8080/ipfs/QmaEGRdV94a3gJ38BDbFr3vUDy3hQPrQnUMYq1jpeF7a2a/lukSkul.jpg">
+</head>
+<style>
+.drop-1 {
+    position: absolute;
+    width: 5px; 
+    height: 5px; 
+    border-radius: 50%;
+}
+.drop-2 {
+    position: absolute;
+    width: 5px;
+    height: 5px; 
+    border-radius: 50%;
+}
+.amber-1 {
+    position: absolute;
+    width: 5px; 
+    height: 5px; 
+    border-radius: 50%;
+}
+.amber-2 {
+    position: absolute; 
+    width: 4px; 
+    height: 4px; 
+    border-radius: 25%; 
+}
+.amber-3 {
+    position: absolute; 
+    width: 2px; 
+    height: 2px; 
+    border-radius: 75%; 
+}
+@keyframes dropFall {
+    0% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    50% {
+        opacity: 0.5;
+        transform: translateY(20vh); 
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(40vh); 
+    }
+}
+@keyframes drift {
+    to {
+        transform: translateX(100vw) translateY(0) rotate(360deg);
+    }
+}   
+@keyframes drift-up {
+    to {
+        transform: translateX(100vw) translateY(-50vh) rotate(360deg);
+    }
+}
+@font-face {
+    font-family: 'Red Smoke';
+    src: url('https://nest.dynamic-dns.net:8080/ipfs/QmVU7LMHeFiVaH2JMgeEEqHCYYuawtta8LR4T6TPGvtfe3/redSmoke.gz');
+    font-weight: normal;
+    font-style: normal;
+}
+.title {
+    font-family: 'Red Smoke';
+    font-size: 85px;
+    letter-spacing: 3mm;
+    color: #fff;
+    text-shadow: 2px 2px 4px #000;
+}
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    background-color: #000;
+    color: #fff;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+.container {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+}
+.container-effects {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    box-sizing: border-box;
+}
+#container-effects {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background-color: #000;
+}
+.link-item {
+    margin: 0; 
+    height: 50px; 
+    width: 50px; 
+    background-color: white; 
+    border-radius: 50%; 
+}
+</style>
+<body>
+	<section>
+		<div id="drops" class="container-effects"></div>
+		<div id="ambers" class="container-effects"></div>
+	</section>
+
+	<div class="container">
+		<h1 class="title">lukSkul</h1>
+		<h4>NFT Collection</h4>
+		<h4 id="message"></h4>
+  
+        <div class="link-item">
+			<a href="https://github.com/lukskul/site" target="_blank">
+				<img src="https://nest.dynamic-dns.net:8080/ipfs" alt="GitHub" width="50" height="50">
+			</a>
+		</div>
+    </div>
+</body> 
+<script>
+const apiKey = 'agNnKSb35I4s1OsMICe1mZ5szK3F_9BP'; // These apiKeys are free!! https://polygon.io
+const symbol = 'X:BTCUSD'; 
+const today = new Date();
+const year = today.getFullYear();
+const month = String(today.getMonth() + 1).padStart(2, '0'); 
+const day = String(today.getDate()).padStart(2, '0');
+const startDate = `${year}-${month}-${day-1}`;
+const endDate = `${year}-${month}-${day}`;
+let marketTrend; 
+
+function checkMarket(startDate, endDate) {
+    const startDateTime = new Date(startDate).getTime();
+    const endDateTime = new Date(endDate).getTime();
+
+    if (endDateTime > startDateTime) {
+        marketTrend = 'bull';
+    } else {
+        marketTrend = 'bear';
+    } 
+    return marketTrend; 
+} 
+function message() {
+    const messageContainer = document.getElementById('message');
+    const messageElement = document.createElement('h4');
+    let message; 
+
+    if (marketTrend === 'bear') {
+        message = 'Market Blood Bath';
+        bear(); 
+    } else {
+        message = "Rise From the Ashes"
+        bull()
+    } 
+    messageElement.textContent = message;
+    messageContainer.appendChild(messageElement);
+};
+function bear() {
+    function createDrop(className, speedMultiplier, opacity, duration) {
+        const drop = document.createElement('div');
+        drop.className = className;
+        document.getElementById('drops').appendChild(drop);
+        const windowHeight = window.innerHeight;
+        const windowWidth = window.innerWidth;
+        drop.style.left = `${Math.random() * windowWidth}px`;
+        drop.style.top = `${Math.random() * windowHeight}px`;
+        const size = Math.random() * 10 + 5;
+        drop.style.width = `${size}px`;
+        drop.style.height = `${size}px`;
+        const speed = Math.random() * speedMultiplier;
+        const angle = Math.random() * 360;
+        drop.style.animation = `dropFall ${speed}s ${duration}`; 
+        drop.style.opacity = Math.random() * 0.7 + 0.3;
+        drop.style.backgroundColor = `rgba(255, ${Math.floor(Math.random() * 50)}, 0, ${opacity})`;
+        drop.style.transform = `rotate(${angle}deg)`;
+    }
+    function createDrops(count) {
+        const dropsContainer = document.getElementById('container-effects');
+        for (let i = 0; i < count; i++) {
+            createDrop('drop-1', .5, 1, '.01'); 
+            createDrop('drop-2', 50, .4, '5'); 
+        }
+    }
+    function animateDrops() {
+        createDrops(1);
+        setTimeout(() => {
+            requestAnimationFrame(animateDrops);
+        }, 1000);
+    } 
+    animateDrops(); 
+};
+function bull() {
+    function createAmber(className, speedMultiplier, movement) {
+        const amber = document.createElement('div');
+        amber.className = className;
+        document.getElementById('ambers').appendChild(amber);
+
+        const windowHeight = window.innerHeight;
+
+    if (className === 'amber-2') {
+        amber.style.left =`${Math.random() * windowHeight}px`; 
+        amber.style.bottom = '0px'; 
+    } else {
+        amber.style.left = '0px'; 
+        amber.style.bottom = `${Math.random() * windowHeight/2}px`;
+    }
+    
+        const size = Math.random() * 10 + 5; 
+        amber.style.width = `${size}px`;
+        amber.style.height = `${size}px`;
+    
+        const duration = (Math.random() * 3 + 2) * (5 / size) * speedMultiplier;
+        amber.style.animation = `${movement} ${duration}s linear infinite`;
+
+        const angle = Math.random() * 360;
+    
+        amber.style.animation = `${movement} ${duration}s infinite`; 
+    
+    amber.style.opacity = Math.random() * 0.7 + 0.3; 
+
+    const greenHue = Math.floor(Math.random() * 50); 
+    amber.style.backgroundColor = `rgb(255, 0, 0)`;
+
+    amber.style.backgroundColor = `rgb(255, 165, 0)`;
+    amber.style.transform = `rotate(${angle}deg)`;
+
+    const timingFunction = movement === 'drift-up' ? 'ease-in' : 'linear';
+    amber.style.animation = `${movement} ${duration}s ${timingFunction} infinite`;
+    }
+    function createAmbers(count) {
+        const amberContainer = document.getElementById('container-effects');
+        for (let i = 0; i < count; i++) {
+            createAmber('amber-1', 2.5, 'drift'); 
+            createAmber('amber-2', 2, 'drift-up'); 
+            createAmber('amber-3', 3, 'drift-up'); 
+        }
+    }
+    function animateAmbers() {
+        createAmbers(2)
+        setTimeout(() => {
+            requestAnimationFrame(animateAmbers);
+        }, 100000);
+    }   
+    animateAmbers();
+};
+window.addEventListener('DOMContentLoaded', function() {
+    fetch(`https://api.polygon.io/v2/aggs/ticker/${symbol}/range/1/day/${startDate}/${endDate}?apiKey=${apiKey}`)
+        .then(response => response.json())
+        .then(data => {
+            if (data.results && data.results.length > 0 && data.results[0].c) {
+                const closingPrices = data.results.map(result => result.c);
+                checkMarket(startDate, endDate);
+                message(); 
+                console.log(marketTrend); 
+            } else {
+                throw new Error('Unable to retrieve data');
+            }
+        })
+        .catch(error => console.error('Error fetching data:', error));
+});
+</script>
+</html>
